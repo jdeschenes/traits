@@ -164,6 +164,8 @@ pygments_style = 'sphinx'
 autodoc_default_flags =['members']
 
 autodoc_member_order = 'bysource'
+autoclass_content = 'both'
+
 
 
 # Options for HTML output
