@@ -62,48 +62,35 @@ def mock_modules():
     else:
         return
 
-    try:
-        from mock import MagicMock
-    except ImportError:
-        if len(MOCK_MODULES) != 0:
-            print(
-                'NOTE: TraitsUI is not installed and mock is not available to '
-                'mock the missing modules, some classes will not be documented')
-            return
-
     # Create the custom types for the HasTraits based traitsui objects.
     TYPES = {
         mock_type: type(mock_type, bases, {'__module__': path})
         for path, mock_type, bases in MOCK_TYPES}
 
-    class DocMock(MagicMock):
-        """ The special sphinx friendly mocking class to mock missing packages.
+    class DocMock(object):
 
-        Based on the suggestion from http://docs.readthedocs.org/en/latest/faq.html#i-get-import-errors-on-libraries-that-depend-on-c-modules
+        def __init__(self, *args, **kwds):
+            if '__doc_mocked_name__' in kwds:
+                self.__docmock_name__ = kwds['__docmocked_name__']
+            else:
+                self.__docmock_name__ = 'Unknown'
 
-        """
-
-        @classmethod
         def __getattr__(self, name):
             if name in ('__file__', '__path__'):
-                # sphinx does not like getting a Mock object in this case.
                 return '/dev/null'
             else:
-                # Return a mock or a custom type as requested.
-                return TYPES.get(name, DocMock(mocked_name=name))
+                return TYPES.get(name, DocMock(__docmock_name__=name))
 
-        # MagicMock does not define __call__ we do just to make sure
-        # that we cover all cases.
         def __call__(self, *args, **kwards):
             return DocMock()
 
         @property
         def __name__(self):
-            # Make sure that if sphinx asks for the name of a Mocked class
-            # it gets a nice strings to use (instead of "DocMock")
-            return self.mocked_name
+            return self.__docmock_name__
 
-    # Add the mocked modules to sys
+        def __repr__(self):
+            return '<DocMock.{}>'.format(self.__name__)
+
     sys.modules.update(
         (mod_name, DocMock(mocked_name=mod_name)) for mod_name in MOCK_MODULES)
 
