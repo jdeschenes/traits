@@ -58,4 +58,5 @@ Traits has the following optional dependencies:
 To build the full documentation one needs:
 
 * sphinx > 1.2.3
-* mock (optional if traitsui is not available)
+* trait-documenter >= 1.0.2
+* sectiondoc
