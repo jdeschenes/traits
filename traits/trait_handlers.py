@@ -1019,7 +1019,7 @@ class TraitCoerceType ( TraitHandler ):
 
         Parameters
         ----------
-        aType : type
+        aType :
             Either a Python type (e.g., ``str`` or types.StringType) or a
             Python value (e.g., 'cat').
 
@@ -1126,7 +1126,7 @@ class TraitCastType ( TraitCoerceType ):
 
         Parameters
         ----------
-        aType : type
+        aType :
             Either a Python type (e.g., ``str`` or types.StringType) or a
             Python value (e.g., ``'cat``).
 

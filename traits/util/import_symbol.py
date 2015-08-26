@@ -14,7 +14,9 @@ def import_symbol(symbol_path):
     all-dotted paths, but in this case you can only import top-level names
     from the module.
 
-    import_symbol('tarfile.TarFile') -> TarFile
+    ::
+
+      import_symbol('tarfile.TarFile') -> TarFile
 
     """
 
