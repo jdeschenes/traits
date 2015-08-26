@@ -15,10 +15,14 @@ import StringIO
 
 from sphinx.ext.autodoc import ClassLevelDocumenter
 
+from .deprecated import deprecated
 from ..trait_handlers import TraitType
 from ..has_traits import MetaHasTraits
 
 
+deprecated(
+    "traits.util.trait_documenter is deprecated "
+    "please use the trait-documenter package")
 def _is_class_trait(name, cls):
     """ Check if the name is in the list of class defined traits of ``cls``.
     """
@@ -38,6 +42,9 @@ class TraitDocumenter(ClassLevelDocumenter):
 
         Using the TraitDocumenter in conjunction with TraitsDoc is not
         advised.
+
+    .. deprecated:: 4.6.0
+       Use the `trait-documenter` package instead.
 
     """
 
